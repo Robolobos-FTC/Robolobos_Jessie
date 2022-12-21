@@ -2,7 +2,7 @@
 
 This folder contains all of our code.
 
-Op-mode:
+TeleOp:
  - FieldCentricJohnTest
 
 Autonomous:
