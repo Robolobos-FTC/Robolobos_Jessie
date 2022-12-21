@@ -1,23 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import java.util.zip.DataFormatException;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import java.lang.*;
 
 @Autonomous(name="parent Auton Don't Run")
-
 public class parentAuton extends LinearOpMode {
     public static double right = 300, left = -300;
-    public static double mult = 1.0;
     double FLMulti = 1;
     double BLMulti = 1;
     double FRMulti = 0.925;
@@ -25,40 +18,8 @@ public class parentAuton extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        //runtime.reset();
-
-
-        // Retrieve the IMU from the hardware map
-        //BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
-        //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-        // Technically this is the default, however specifying it is clearer
-        //parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-
-        // Without this, data retrieving from the IMU throws an exception
-        //imu.initialize(parameters);
-
         waitForStart();
-
-        //if (isStopRequested()) return;
-
-        while (opModeIsActive()) {
-
-            //double y = gamepad1.left_stick_y;
-            //double x = -gamepad1.left_stick_x;
-            //double rx = -gamepad1.right_stick_x;
-            //double rY = -gamepad1.right_stick_y;
-
-            // Read inverse IMU heading, as the IMU heading is CW positive
-            //double botHeading = -imu.getAngularOrientation().firstAngle;
-
-            //double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
-            //double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
-            /*
-                Field-Centric wheel motors below with
-            */
-
-        }
+        while (opModeIsActive()) {}
     }
 
 
