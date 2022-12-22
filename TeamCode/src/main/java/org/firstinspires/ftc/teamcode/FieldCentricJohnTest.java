@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp(name="FieldCentricJohnTest", group="DriveModes")
 public class FieldCentricJohnTest extends LinearOpMode {
     private CRServo extension;
+
+    // Not needed but keep for future
     double leftClawPosition;
     double rightClawPosition;
     double leftClawMovedPosition = 0;
@@ -165,8 +167,8 @@ public class FieldCentricJohnTest extends LinearOpMode {
             // the 1 * is for correcting drift btw
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = 1 * (mult * (rotY + rotX + rx)) / denominator;
-            double backLeftPower = 0.8 * (mult * (rotY - rotX + rx)) / denominator;
+            double frontLeftPower = 0.85 * (mult * (rotY + rotX + rx)) / denominator;
+            double backLeftPower = 1 * (mult * (rotY - rotX + rx)) / denominator;
             double frontRightPower = 1 * (mult * (rotY - rotX - rx)) / denominator;
             double backRightPower = 1 * (mult * (rotY + rotX - rx)) / denominator;
 
