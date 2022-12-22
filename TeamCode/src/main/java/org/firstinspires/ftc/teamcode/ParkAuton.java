@@ -23,6 +23,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
 
 @Autonomous
 public class ParkAuton extends LinearOpMode {
+    public DcMotorEx frontRight, frontLeft, backRight, backLeft;
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -58,6 +61,15 @@ public class ParkAuton extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        frontRight = hardwareMap.get(DcMotorEx.class, "front right");
+        frontLeft = hardwareMap.get(DcMotorEx.class, "front left");
+        backRight = hardwareMap.get(DcMotorEx.class, "back right");
+        backLeft = hardwareMap.get(DcMotorEx.class, "back left");
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
@@ -124,18 +136,22 @@ public class ParkAuton extends LinearOpMode {
             telemetry.update();
         }
 
-        /* Actually do something useful */
-        if (tagOfInterest.id == left) {
-            // left code
-        } else if (tagOfInterest.id == right) {
-            // right code
-        } else {
-            // middle and error code
+        while (opModeIsActive()) {
+            parentAuton bot = new parentAuton();
+            if (tagOfInterest.id == left) {
+                bot.driveBackward(5, 800, frontRight, frontLeft, backRight, backLeft);
+                bot.rotateRight(5, 100, frontRight, frontLeft, backRight, backLeft);
+                bot.strafeRight(5, 1000, frontRight, frontLeft, backRight, backLeft);
+            } else if (tagOfInterest.id == right) {
+                bot.driveBackward(5, 900, frontRight, frontLeft, backRight, backLeft);
+                sleep(200);
+                bot.rotateRight(5, 100, frontRight, frontLeft, backRight, backLeft);
+                bot.strafeLeft(5, 600, frontRight, frontLeft, backRight, backLeft);
+            } else {
+                bot.driveBackward(5, 900, frontRight, frontLeft, backRight, backLeft);
+            }
+            stop();
         }
-
-
-        /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-        while (opModeIsActive()) {sleep(20);}
     }
 
     void tagToTelemetry(AprilTagDetection detection) {
