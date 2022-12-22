@@ -6,13 +6,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name="FieldCentricJohnTest", group="DriveModes")
 public class FieldCentricJohnTest extends LinearOpMode {
-    // private int up = 10;
-    // private int down= -10;
     private CRServo extension;
+    double leftClawPosition;
+    double rightClawPosition;
+    double leftClawMovedPosition = 0;
+    double rightClawMovedPosition = 0;
+    boolean switchDirectionLeft = false;
+    boolean switchDirectionRight = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -29,12 +32,8 @@ public class FieldCentricJohnTest extends LinearOpMode {
         Servo rightClaw = hardwareMap.servo.get("rightClaw");
         Servo leftClaw = hardwareMap.servo.get("leftClaw");
 
-        double leftClawPosition;
-
-
         FR.setDirection(DcMotor.Direction.REVERSE);
         BR.setDirection(DcMotor.Direction.REVERSE);
-
 
         // Slider presets
         slide.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
@@ -44,16 +43,6 @@ public class FieldCentricJohnTest extends LinearOpMode {
         int slideTarget = 0;
         waitForStart();
         slide.setPower(2.9);
-
-        // Claw presets
-        //rightClaw.setPower(0);
-        //leftClaw.setPower(0);
-
-        /*
-        public int getLeftClaw(){
-                return leftClawPosition;
-            }
-        */
 
         //IMU
         // Retrieve the IMU from the hardware map
@@ -89,40 +78,62 @@ public class FieldCentricJohnTest extends LinearOpMode {
                 X makes slider go to level 1 pole
                 A makes slider go all the way down
             */
-            if (gamepad2.a){
+            if (gamepad2.a) {
                 slideTarget = 0;
-            }
-            else if (gamepad2.y){
+            } else if (gamepad2.y) {
                 slideTarget = 4500;
-            }
-            else if (gamepad2.b) {
+            } else if (gamepad2.b) {
                 slideTarget = 2900;
-            }
-            else if (gamepad2.x) {
+            } else if (gamepad2.x) {
                 slideTarget = 1275;
             }
             slide.setTargetPosition(slideTarget);
 
             //speed servo movement
-            if (gamepad2.dpad_up){
+            if (gamepad2.dpad_up) {
                 extension.setPower(1);
-            }
-            else if (gamepad2.dpad_down) {
+            } else if (gamepad2.dpad_down) {
                 extension.setPower(-1);
-            }
-            else {
+            } else {
                 extension.setPower(0);
             }
 
-
-            /*
-                CR motor uses setPower()
-                servo uses setPostion();
-
-            */
+                //CR motor uses setPower()
+                //servo uses setPostion();
 
 
-            //open claw servo movement
+            // Below code will work one day
+//            if (gamepad2.right_bumper) {
+//                leftClawPosition = 0.4;
+//                rightClawPosition = 0.8;
+//                switchDirectionLeft = false;
+//                switchDirectionRight = false;
+//            } else {
+//                if (gamepad1.dpad_right) {
+//                    leftClaw.setDirection(Servo.Direction.REVERSE);
+//                    switchDirectionLeft = true;
+//                    leftClawMovedPosition = 0.5;
+//                    rightClawPosition = 0.8;
+//                } else if (gamepad1.dpad_left) {
+//                    //rightClaw.setDirection(Servo.Direction.REVERSE);
+//
+//                } else {
+//                    leftClawPosition = 0;
+//                    rightClawPosition = 1;
+//                }
+//            }
+//
+//            if (switchDirectionRight) {
+//                rightClaw.setPosition(rightClawMovedPosition);
+//                rightClaw.setDirection(Servo.Direction.REVERSE);
+//            } else if (switchDirectionLeft) {
+//                leftClaw.setPosition(leftClawMovedPosition);
+//                leftClaw.setDirection(Servo.Direction.REVERSE);
+//                rightClaw.setPosition(rightClawPosition);
+//            } else {
+//                leftClaw.setPosition(leftClawPosition);
+//                rightClaw.setPosition(rightClawPosition);
+//            }
 
             if (gamepad2.left_bumper) {
                 leftClaw.setPosition(0.1);
@@ -131,8 +142,8 @@ public class FieldCentricJohnTest extends LinearOpMode {
 
             //close claw servo movement
             else if (gamepad2.right_bumper) {
-                leftClaw.setPosition(0.3);
-                rightClaw.setPosition(0.7);
+                leftClaw.setPosition(0.4);
+                rightClaw.setPosition(0.8);
             }
             else {
                 leftClaw.setPosition(0.1);
