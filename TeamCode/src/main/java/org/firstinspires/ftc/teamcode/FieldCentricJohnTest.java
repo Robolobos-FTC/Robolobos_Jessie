@@ -83,7 +83,7 @@ public class FieldCentricJohnTest extends LinearOpMode {
             if (gamepad2.a) {
                 slideTarget = 0;
             } else if (gamepad2.y) {
-                slideTarget = 4500;
+                slideTarget = 4250;
             } else if (gamepad2.b) {
                 slideTarget = 2900;
             } else if (gamepad2.x) {
