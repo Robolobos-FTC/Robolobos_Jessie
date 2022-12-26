@@ -46,7 +46,7 @@ public class LeftAuto extends LinearOpMode {
         parentAuton bot = new parentAuton();
         waitForStart();
         while (opModeIsActive()) {
-            bot.driveForward(5.0, 1900, frontRight, frontLeft, backRight, backLeft); /*
+            bot.driveForward(5.0, 1900, frontRight, frontLeft, backRight, backLeft);
             bot.rotateLeft(5.0, 450, frontRight, frontLeft, backRight, backLeft);
             bot.driveForward(5.0, 530, frontRight, frontLeft, backRight, backLeft);
             bot.closeClaw(leftClaw, rightClaw);
@@ -72,7 +72,6 @@ public class LeftAuto extends LinearOpMode {
             //bot.openClaw(leftClaw, rightClaw);
             //bot.closeClaw(leftClaw, rightClaw);
             //bot.raiseExtension(-2000, extension);
-           */
             stop();
         }
     }
