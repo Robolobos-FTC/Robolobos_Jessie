@@ -175,15 +175,15 @@ public class FieldCentricJohnTest extends LinearOpMode {
             FL.setPower(frontLeftPower);
             BL.setPower(backLeftPower);
             FR.setPower(frontRightPower);
+
             BR.setPower(backRightPower);
 
-
-            // if (gamepad1.dpad_up) {
-            //     FL.setPower(FLMulti);
-            //     BL.setPower(-0.5);
-            //     FR.setPower(-0.4);
-            //     BR.setPower(-0.5);
-            // }
+             if (gamepad1.dpad_up) {
+                 FL.setPower(-0.46);
+                 BL.setPower(-0.5);
+                 FR.setPower(-0.5);
+                 BR.setPower(-0.5);
+             }
 
             telemetry.addData("Slide", slide.getCurrentPosition());
             System.out.println(slide.getCurrentPosition());
