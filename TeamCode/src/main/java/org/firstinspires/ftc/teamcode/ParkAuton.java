@@ -53,9 +53,9 @@ public class ParkAuton extends LinearOpMode {
     double tagsize = 0.166;
 
     // Tag Ids for sleeve
-    int left = 0;
-    int middle = 1;
-    int right = 2;
+    int left = 3;
+    int middle = 4;
+    int right = 6;
 
     AprilTagDetection tagOfInterest = null;
 
