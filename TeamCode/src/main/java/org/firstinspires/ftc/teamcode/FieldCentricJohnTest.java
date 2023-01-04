@@ -178,8 +178,8 @@ public class FieldCentricJohnTest extends LinearOpMode {
             BR.setPower(backRightPower);
 
 
-             if (gamepad1.dpad_up) {
-                 imu.initialize(parameters);
+            if (gamepad1.dpad_up) {
+                imu.initialize(parameters);
             }
 
             telemetry.addData("Slide", slide.getCurrentPosition());
