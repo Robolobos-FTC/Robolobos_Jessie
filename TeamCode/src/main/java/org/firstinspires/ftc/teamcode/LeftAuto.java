@@ -110,7 +110,9 @@ public class LeftAuto extends LinearOpMode {
             //bot.closeClaw(leftClaw, rightClaw);
             //bot.raiseExtension(-2000, extension);
 
-            // Below code to confirm camera cab detect sleeve
+
+
+            // Below code to confirm camera can detect sleeve
             /*if (sleeveID == left) {
                 bot.driveBackward(5, 850, frontRight, frontLeft, backRight, backLeft);
                 sleep(200);
