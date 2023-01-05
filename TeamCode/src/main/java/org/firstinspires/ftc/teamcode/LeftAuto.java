@@ -71,7 +71,7 @@ public class LeftAuto extends LinearOpMode {
 
         // Slide
         slide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        slide.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+        //slide.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
         slide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         slide.setTargetPosition(0);
         slide.setPower(1);
@@ -83,7 +83,7 @@ public class LeftAuto extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-            /*bot.driveForward(5.0, 1900, frontRight, frontLeft, backRight, backLeft);
+            bot.driveForward(5.0, 1900, frontRight, frontLeft, backRight, backLeft);
             bot.rotateLeft(5.0, 450, frontRight, frontLeft, backRight, backLeft);
             bot.driveForward(5.0, 530, frontRight, frontLeft, backRight, backLeft);
             bot.closeClaw(leftClaw, rightClaw);
@@ -109,8 +109,9 @@ public class LeftAuto extends LinearOpMode {
             //bot.openClaw(leftClaw, rightClaw);
             //bot.closeClaw(leftClaw, rightClaw);
             //bot.raiseExtension(-2000, extension);
-            */
-            if (sleeveID == left) {
+
+            // Below code to confirm camera cab detect sleeve
+            /*if (sleeveID == left) {
                 bot.driveBackward(5, 850, frontRight, frontLeft, backRight, backLeft);
                 sleep(200);
                 bot.rotateRight(5, 100, frontRight, frontLeft, backRight, backLeft);
@@ -122,7 +123,7 @@ public class LeftAuto extends LinearOpMode {
                 bot.strafeLeft(5, 900, frontRight, frontLeft, backRight, backLeft);
             } else {
                 bot.driveBackward(5, 900, frontRight, frontLeft, backRight, backLeft);
-            }
+            }*/
             stop();
         }
     }
