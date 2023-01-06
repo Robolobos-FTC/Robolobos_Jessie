@@ -25,6 +25,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
@@ -137,8 +138,35 @@ public class ParkAuton extends LinearOpMode {
         }
 
         while (opModeIsActive()) {
+            // Gamepad Colors lmao
+
+            Gamepad.LedEffect rainbow = new Gamepad.LedEffect.Builder()
+                    .addStep(1, 0, 0, 250) // Show red for 250ms
+                    .addStep(255, 128, 0, 250) // Show orange for 250ms
+                    .addStep(255, 255, 51, 250) // Show yellow for 250ms
+                    .addStep(0, 1, 0, 250) // Show green for 250ms
+                    .addStep(0, 0, 1, 250) // Show blue for 250ms
+                    .addStep(102, 0, 204, 250) // Show purple for 250ms
+                    .addStep(1, 1, 1, 250) // Show white for 250ms
+                    .addStep(255, 51, 255, 100000) // Show white for 250ms
+
+                    .build();
+
+            // purple
+            gamepad1.setLedColor(102, 0, 204, 10000);
+            // pink
+            gamepad2.setLedColor(255, 51, 255, 10000);
+
+            // rainbow
+            gamepad1.runLedEffect(rainbow);
+            gamepad2.runLedEffect(rainbow);
+
+
+
             parentAuton bot = new parentAuton();
 
+            bot.strafeRight(5, 500, frontRight, frontLeft, backRight, backLeft);
+            bot.rotateRight(5, 100, frontRight, frontLeft, backRight, backLeft);
             bot.driveForward(5, 1000, frontRight, frontLeft, backRight, backLeft );
 
 
