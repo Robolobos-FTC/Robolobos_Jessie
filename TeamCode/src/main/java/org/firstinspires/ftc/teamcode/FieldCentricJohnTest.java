@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -71,6 +72,31 @@ public class FieldCentricJohnTest extends LinearOpMode {
 
             double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
+
+            // Gamepad Colors lmao
+
+            Gamepad.LedEffect rainbowManual = new Gamepad.LedEffect.Builder()
+                    .addStep(1, 0, 0, 5000) // Show red for 5s
+                    .addStep(255, 128, 0, 5000) // Show orange for 5s
+                    .addStep(255, 255, 51, 5000) // Show yellow for 5s
+                    .addStep(0, 1, 0, 5000) // Show green for 5s
+                    .addStep(0, 0, 1, 5000) // Show blue for 5s
+                    .addStep(102, 0, 204, 5000) // Show purple for 5s
+                    .addStep(1, 1, 1, 5000) // Show white for 5s
+                    .addStep(255, 51, 255, 50000) // Show pink for 50s
+
+                    .build();
+
+
+            // purple
+            //gamepad1.setLedColor(102, 0, 204, 10000);
+            // pink
+            //gamepad2.setLedColor(255, 51, 255, 10000);
+
+            // rainbow
+
+            gamepad1.runLedEffect(rainbowManual);
+            gamepad2.runLedEffect(rainbowManual);
 
             /*
             Slide motor movement

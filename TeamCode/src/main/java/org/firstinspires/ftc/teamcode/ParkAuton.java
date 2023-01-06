@@ -140,53 +140,65 @@ public class ParkAuton extends LinearOpMode {
         while (opModeIsActive()) {
             // Gamepad Colors lmao
 
-            Gamepad.LedEffect rainbow = new Gamepad.LedEffect.Builder()
-                    .addStep(1, 0, 0, 250) // Show red for 250ms
-                    .addStep(255, 128, 0, 250) // Show orange for 250ms
-                    .addStep(255, 255, 51, 250) // Show yellow for 250ms
-                    .addStep(0, 1, 0, 250) // Show green for 250ms
-                    .addStep(0, 0, 1, 250) // Show blue for 250ms
-                    .addStep(102, 0, 204, 250) // Show purple for 250ms
-                    .addStep(1, 1, 1, 250) // Show white for 250ms
-                    .addStep(255, 51, 255, 100000) // Show white for 250ms
+            Gamepad.LedEffect rainbowAuton = new Gamepad.LedEffect.Builder()
+                    .addStep(1, 0, 0, 5000) // Show red for 5s
+                    .addStep(255, 128, 0, 5000) // Show orange for 5s
+                    .addStep(255, 255, 51, 5000) // Show yellow for 5s
+                    .addStep(0, 1, 0, 5000) // Show green for 5s
+                    .addStep(0, 0, 1, 5000) // Show blue for 5s
+                    .addStep(102, 0, 204, 5000) // Show purple for 5s
+                    .addStep(1, 1, 1, 5000) // Show white for 5s
+                    .addStep(255, 51, 255, 50000) // Show pink for 50s
 
                     .build();
 
+
             // purple
-            gamepad1.setLedColor(102, 0, 204, 10000);
+            //gamepad1.setLedColor(102, 0, 204, 10000);
             // pink
-            gamepad2.setLedColor(255, 51, 255, 10000);
+            //gamepad2.setLedColor(255, 51, 255, 10000);
 
             // rainbow
-            gamepad1.runLedEffect(rainbow);
-            gamepad2.runLedEffect(rainbow);
+
+                gamepad1.runLedEffect(rainbowAuton);
+                gamepad2.runLedEffect(rainbowAuton);
+
 
 
 
             parentAuton bot = new parentAuton();
-
+/*
             bot.strafeRight(5, 500, frontRight, frontLeft, backRight, backLeft);
-            bot.rotateRight(5, 100, frontRight, frontLeft, backRight, backLeft);
-            bot.driveForward(5, 1000, frontRight, frontLeft, backRight, backLeft );
+            bot.rotateRight(5, 550, frontRight, frontLeft, backRight, backLeft);
+            sleep(200);
+            bot.driveForward(5, 1650, frontRight, frontLeft, backRight, backLeft );
+            bot.rotateLeft(5, 500, frontRight, frontLeft, backRight, backLeft);
+            bot.driveForward(5, 750, frontRight, frontLeft, backRight, backLeft );
 
 
+            */
 
 
-
+            // ** With 3rd square in mind, claw facing right
 
             if (tagOfInterest.id == left) {
-                bot.driveBackward(5, 850, frontRight, frontLeft, backRight, backLeft);
-                sleep(200);
-                bot.rotateRight(5, 100, frontRight, frontLeft, backRight, backLeft);
-                bot.strafeRight(5, 1000, frontRight, frontLeft, backRight, backLeft);
+                // left square
+                bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
+                bot.driveBackward(5, 500, frontRight, frontLeft, backRight, backLeft);
+
+
             } else if (tagOfInterest.id == right) {
-                bot.driveBackward(5, 900, frontRight, frontLeft, backRight, backLeft);
-                sleep(200);
-                bot.rotateRight(5, 100, frontRight, frontLeft, backRight, backLeft);
-                bot.strafeLeft(5, 900, frontRight, frontLeft, backRight, backLeft);
+                // right square
+                bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
+                bot.driveForward(5, 500, frontRight, frontLeft, backRight, backLeft);
+
+
             } else {
-                bot.driveBackward(5, 900, frontRight, frontLeft, backRight, backLeft);
+                // forward square
+                bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
             }
+
+
             stop();
         }
     }
