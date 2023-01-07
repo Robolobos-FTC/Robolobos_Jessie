@@ -137,7 +137,7 @@ public class parentAuton extends LinearOpMode {
         myBackLeft.setVelocity(0);
     }
 
-    public void raiseSlide(int slideTarget, DcMotorEx mySlide) {
+    public void moveSlide(int slideTarget, DcMotorEx mySlide) {
         while (mySlide.getCurrentPosition() != slideTarget) {
             mySlide.setTargetPosition(slideTarget);
         }
