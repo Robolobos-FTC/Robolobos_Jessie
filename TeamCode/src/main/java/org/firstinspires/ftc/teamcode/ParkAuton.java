@@ -23,11 +23,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
@@ -39,9 +36,7 @@ import java.util.ArrayList;
 
 @Autonomous
 public class ParkAuton extends LinearOpMode {
-    public DcMotorEx frontRight, frontLeft, backRight, backLeft, mySlide;
-    public CRServo extension;
-    public Servo rightClaw, leftClaw;
+    public DcMotorEx frontRight, frontLeft, backRight, backLeft;
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -70,26 +65,10 @@ public class ParkAuton extends LinearOpMode {
         frontLeft = hardwareMap.get(DcMotorEx.class, "front left");
         backRight = hardwareMap.get(DcMotorEx.class, "back right");
         backLeft = hardwareMap.get(DcMotorEx.class, "back left");
-
-        mySlide = hardwareMap.get(DcMotorEx.class, "slide");
-
-        extension = hardwareMap.crservo.get("extension");
-        rightClaw = hardwareMap.servo.get("rightClaw");
-        leftClaw = hardwareMap.servo.get("leftClaw");
-
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        mySlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        // Slide
-        mySlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        mySlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        mySlide.setTargetPosition(0);
-        mySlide.setPower(1);
-
-
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -158,85 +137,20 @@ public class ParkAuton extends LinearOpMode {
         }
 
         while (opModeIsActive()) {
-            // Gamepad Colors lmao
-
-            Gamepad.LedEffect rainbowAuton = new Gamepad.LedEffect.Builder()
-                    .addStep(1, 0, 0, 5000) // Show red for 5s
-                    .addStep(255, 128, 0, 5000) // Show orange for 5s
-                    .addStep(255, 255, 51, 5000) // Show yellow for 5s
-                    .addStep(0, 1, 0, 5000) // Show green for 5s
-                    .addStep(0, 0, 1, 5000) // Show blue for 5s
-                    .addStep(102, 0, 204, 5000) // Show purple for 5s
-                    .addStep(1, 1, 1, 5000) // Show white for 5s
-                    .addStep(255, 51, 255, 50000) // Show pink for 50s
-
-                    .build();
-
-
-            // purple
-            //gamepad1.setLedColor(102, 0, 204, 10000);
-            // pink
-            //gamepad2.setLedColor(255, 51, 255, 10000);
-
-            // rainbow
-
-                gamepad1.runLedEffect(rainbowAuton);
-                gamepad2.runLedEffect(rainbowAuton);
-
-
-
-
             parentAuton bot = new parentAuton();
-
-            // for level 2 pole
-            bot.closeClaw(leftClaw, rightClaw);
-            bot.driveForward(5, 150, frontRight, frontLeft, backRight, backLeft);
-            bot.strafeRight(5, 1780, frontRight, frontLeft, backRight, backLeft);
-            bot.rotateLeft(5, 1150, frontRight, frontLeft, backRight, backLeft);
-            bot.moveSlide(2500, mySlide);
-            bot.driveForward(5, 550, frontRight, frontLeft, backRight, backLeft);
-            bot.openClaw(leftClaw, rightClaw);
-
-            // Always set to 0 after finishing program so slider isnt hangin around !!!
-            bot.moveSlide(0, mySlide);
-
-
-            /*
-            // for level 3 pole
-            bot.moveSlide(3500, mySlide);
-            bot.rotateLeft(5, 1600, frontRight, frontLeft, backRight, backLeft);
-            bot.driveForward(5, 300, frontRight, frontLeft, backRight, backLeft);
-            bot.openClaw(leftClaw, rightClaw);
-            bot.moveSlide(0, mySlide);
-            */
-
-
-
-
-
-
-
-            // ** With 3rd square in mind, claw facing right
-
-            /*
             if (tagOfInterest.id == left) {
-                // left square
-                bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
-                bot.driveBackward(5, 500, frontRight, frontLeft, backRight, backLeft);
-
-
+                bot.strafeRight(5, 1300, frontRight, frontLeft, backRight, backLeft);
+                sleep(200);
+                bot.strafeLeft(5,200, frontRight, frontLeft, backRight, backLeft);
+                bot.driveForward(5, 700, frontRight, frontLeft, backRight, backLeft);
             } else if (tagOfInterest.id == right) {
-                // right square
-                bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
-                bot.driveForward(5, 500, frontRight, frontLeft, backRight, backLeft);
-
-
+                bot.strafeRight(5, 1300, frontRight, frontLeft, backRight, backLeft);
+                sleep(200);
+                bot.strafeLeft(5, 200, frontRight, frontLeft, backRight, backLeft);
+                bot.driveBackward(5, 600, frontRight, frontLeft, backRight, backLeft);
             } else {
-                // forward square
-                bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
+                bot.strafeRight(5, 1100, frontRight, frontLeft, backRight, backLeft);
             }
-        */
-
             stop();
         }
     }
