@@ -23,9 +23,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
@@ -37,7 +39,9 @@ import java.util.ArrayList;
 
 @Autonomous
 public class ParkAuton extends LinearOpMode {
-    public DcMotorEx frontRight, frontLeft, backRight, backLeft;
+    public DcMotorEx frontRight, frontLeft, backRight, backLeft, mySlide;
+    public CRServo extension;
+    public Servo rightClaw, leftClaw;
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -66,10 +70,26 @@ public class ParkAuton extends LinearOpMode {
         frontLeft = hardwareMap.get(DcMotorEx.class, "front left");
         backRight = hardwareMap.get(DcMotorEx.class, "back right");
         backLeft = hardwareMap.get(DcMotorEx.class, "back left");
+
+        mySlide = hardwareMap.get(DcMotorEx.class, "slide");
+
+        extension = hardwareMap.crservo.get("extension");
+        rightClaw = hardwareMap.servo.get("rightClaw");
+        leftClaw = hardwareMap.servo.get("leftClaw");
+
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mySlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Slide
+        mySlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        mySlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        mySlide.setTargetPosition(0);
+        mySlide.setPower(1);
+
+
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -167,20 +187,38 @@ public class ParkAuton extends LinearOpMode {
 
 
             parentAuton bot = new parentAuton();
-/*
-            bot.strafeRight(5, 500, frontRight, frontLeft, backRight, backLeft);
-            bot.rotateRight(5, 550, frontRight, frontLeft, backRight, backLeft);
-            sleep(200);
-            bot.driveForward(5, 1650, frontRight, frontLeft, backRight, backLeft );
-            bot.rotateLeft(5, 500, frontRight, frontLeft, backRight, backLeft);
-            bot.driveForward(5, 750, frontRight, frontLeft, backRight, backLeft );
+
+            // for level 2 pole
+            bot.closeClaw(leftClaw, rightClaw);
+            bot.driveForward(5, 150, frontRight, frontLeft, backRight, backLeft);
+            bot.strafeRight(5, 1780, frontRight, frontLeft, backRight, backLeft);
+            bot.rotateLeft(5, 1150, frontRight, frontLeft, backRight, backLeft);
+            bot.moveSlide(2500, mySlide);
+            bot.driveForward(5, 550, frontRight, frontLeft, backRight, backLeft);
+            bot.openClaw(leftClaw, rightClaw);
+
+            // Always set to 0 after finishing program so slider isnt hangin around !!!
+            bot.moveSlide(0, mySlide);
 
 
+            /*
+            // for level 3 pole
+            bot.moveSlide(3500, mySlide);
+            bot.rotateLeft(5, 1600, frontRight, frontLeft, backRight, backLeft);
+            bot.driveForward(5, 300, frontRight, frontLeft, backRight, backLeft);
+            bot.openClaw(leftClaw, rightClaw);
+            bot.moveSlide(0, mySlide);
             */
+
+
+
+
+
 
 
             // ** With 3rd square in mind, claw facing right
 
+            /*
             if (tagOfInterest.id == left) {
                 // left square
                 bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
@@ -197,7 +235,7 @@ public class ParkAuton extends LinearOpMode {
                 // forward square
                 bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
             }
-
+        */
 
             stop();
         }
