@@ -139,17 +139,17 @@ public class ParkAuton extends LinearOpMode {
         while (opModeIsActive()) {
             parentAuton bot = new parentAuton();
             if (tagOfInterest.id == left) {
-                bot.driveBackward(5, 850, frontRight, frontLeft, backRight, backLeft);
+                bot.strafeRight(5, 1300, frontRight, frontLeft, backRight, backLeft);
                 sleep(200);
-                bot.rotateRight(5, 100, frontRight, frontLeft, backRight, backLeft);
-                bot.strafeRight(5, 1000, frontRight, frontLeft, backRight, backLeft);
+                bot.strafeLeft(5,200, frontRight, frontLeft, backRight, backLeft);
+                bot.driveForward(5, 700, frontRight, frontLeft, backRight, backLeft);
             } else if (tagOfInterest.id == right) {
-                bot.driveBackward(5, 900, frontRight, frontLeft, backRight, backLeft);
+                bot.strafeRight(5, 1300, frontRight, frontLeft, backRight, backLeft);
                 sleep(200);
-                bot.rotateRight(5, 100, frontRight, frontLeft, backRight, backLeft);
-                bot.strafeLeft(5, 900, frontRight, frontLeft, backRight, backLeft);
+                bot.strafeLeft(5, 200, frontRight, frontLeft, backRight, backLeft);
+                bot.driveBackward(5, 600, frontRight, frontLeft, backRight, backLeft);
             } else {
-                bot.driveBackward(5, 900, frontRight, frontLeft, backRight, backLeft);
+                bot.strafeRight(5, 1100, frontRight, frontLeft, backRight, backLeft);
             }
             stop();
         }
