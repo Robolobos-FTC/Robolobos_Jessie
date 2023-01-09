@@ -11,10 +11,10 @@ import java.lang.*;
 @Autonomous(name="parent Auton Don't Run")
 public class parentAuton extends LinearOpMode {
     public static double right = 300, left = -300;
-    double FLMulti = 1;
-    double BLMulti = 1;
-    double FRMulti = 0.925;
-    double BRMulti = 0.925;
+    double FLMulti = 55;
+    double BLMulti = .5;
+    double FRMulti = 0.425; // 0.925 for FR and BR
+    double BRMulti = 0.425;
 
     @Override
     public void runOpMode() throws InterruptedException {

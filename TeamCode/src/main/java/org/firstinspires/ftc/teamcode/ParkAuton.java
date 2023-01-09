@@ -157,28 +157,25 @@ public class ParkAuton extends LinearOpMode {
             telemetry.update();
         }
 
+        Gamepad.LedEffect rainbowAuton = new Gamepad.LedEffect.Builder()
+                .addStep(1, 0, 0, 10000) // Show red for 10s
+                .addStep(0, 1, 0, 10000) // Show green for 10s
+                .addStep(0, 0, 1, 10000) // Show blue for 10s
+                .addStep(1, 1, 1, 10000) // Show white for 10s
+                .addStep(255, 51, 255, 50000) // Show pink for 50s
+
+                .build();
+
+
+        // purple
+        //gamepad1.setLedColor(102, 0, 204, 10000);
+        // pink
+        //gamepad2.setLedColor(255, 51, 255, 10000);
+
+        // rainbow
+
         while (opModeIsActive()) {
             // Gamepad Colors lmao
-
-            Gamepad.LedEffect rainbowAuton = new Gamepad.LedEffect.Builder()
-                    .addStep(1, 0, 0, 5000) // Show red for 5s
-                    .addStep(255, 128, 0, 5000) // Show orange for 5s
-                    .addStep(255, 255, 51, 5000) // Show yellow for 5s
-                    .addStep(0, 1, 0, 5000) // Show green for 5s
-                    .addStep(0, 0, 1, 5000) // Show blue for 5s
-                    .addStep(102, 0, 204, 5000) // Show purple for 5s
-                    .addStep(1, 1, 1, 5000) // Show white for 5s
-                    .addStep(255, 51, 255, 50000) // Show pink for 50s
-
-                    .build();
-
-
-            // purple
-            //gamepad1.setLedColor(102, 0, 204, 10000);
-            // pink
-            //gamepad2.setLedColor(255, 51, 255, 10000);
-
-            // rainbow
 
                 gamepad1.runLedEffect(rainbowAuton);
                 gamepad2.runLedEffect(rainbowAuton);
@@ -190,12 +187,12 @@ public class ParkAuton extends LinearOpMode {
 
             // for level 2 pole
             bot.closeClaw(leftClaw, rightClaw);
-            bot.driveForward(5, 150, frontRight, frontLeft, backRight, backLeft);
-            bot.strafeRight(5, 1780, frontRight, frontLeft, backRight, backLeft);
-            bot.rotateLeft(5, 1150, frontRight, frontLeft, backRight, backLeft);
-            bot.moveSlide(2500, mySlide);
-            bot.driveForward(5, 550, frontRight, frontLeft, backRight, backLeft);
+            bot.driveBackward(5, 690, frontRight, frontLeft, backRight, backLeft);
+            bot.moveSlide(2900, mySlide);
+            bot.strafeRight(5, 1650, frontRight, frontLeft, backRight, backLeft);
+            bot.driveForward(5, 50, frontRight, frontLeft, backRight, backLeft);
             bot.openClaw(leftClaw, rightClaw);
+            bot.driveBackward(5, 50, frontRight, frontLeft, backRight, backLeft);
 
             // Always set to 0 after finishing program so slider isnt hangin around !!!
             bot.moveSlide(0, mySlide);
