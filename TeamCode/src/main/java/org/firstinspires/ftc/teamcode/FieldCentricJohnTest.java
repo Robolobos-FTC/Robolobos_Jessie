@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -30,7 +31,7 @@ public class FieldCentricJohnTest extends LinearOpMode {
         // Slider
         DcMotor slide = hardwareMap.dcMotor.get("slide");
         // Claw extension
-        extension = hardwareMap.crservo.get("extension");
+        CRServoImplEx extension = hardwareMap.get(CRServoImplEx.class, "extension");
         // Claw Motors
         Servo rightClaw = hardwareMap.servo.get("rightClaw");
         Servo leftClaw = hardwareMap.servo.get("leftClaw");
