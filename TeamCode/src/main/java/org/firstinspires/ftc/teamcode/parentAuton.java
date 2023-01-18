@@ -11,11 +11,21 @@ import java.lang.*;
 
 @Autonomous(name="parent Auton Don't Run")
 public class parentAuton extends LinearOpMode {
+
     public static double right = 300, left = -300;
+
+    // adjust these to change the multiplier for how fast the wheels are individually
     double FLMulti = 0.5;
     double BLMulti = 0.5;
     double FRMulti = 0.5;
     double BRMulti = 0.5;
+
+    // adjust these to adjust how far the individual motors go in ticks * ticks MUST be in INT!!
+    int FRtickAdj = 0;
+    int FLtickAdj = 0;
+    int BRtickAdj = 0;
+    int BLtickAdj = 0;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -23,12 +33,10 @@ public class parentAuton extends LinearOpMode {
         while (opModeIsActive()) {}
     }
 
-    public void forwardInTicks(double mult, long ms, int ticks, DcMotorEx myFrontRight,
+    // if this method works, I am amazing & Crtl C + Ctrl V and change the directions lmao
+
+    public void forwardInTicks(double mult, int ticks, DcMotorEx myFrontRight,
                              DcMotorEx myFrontLeft, DcMotorEx myBackRight, DcMotorEx myBackLeft) {
-        ElapsedTime runTime = new ElapsedTime();
-        double startTime = runTime.milliseconds();
-        double currentTime = runTime.milliseconds();
-        while (currentTime - startTime <= ms) {
 
             myFrontRight.setVelocity(mult * right * FRMulti);
             myFrontLeft.setVelocity(mult * left * 0.75 * FLMulti);
@@ -36,23 +44,33 @@ public class parentAuton extends LinearOpMode {
             myBackLeft.setVelocity(mult * left * 0.9 * BLMulti);
 
             // remember - ticks are what the motors 'count' by.
-            myFrontRight.setTargetPosition(ticks);
-            myFrontLeft.setTargetPosition(ticks);
-            myBackRight.setTargetPosition(ticks);
-            myBackLeft.setTargetPosition(ticks);
+            myFrontRight.setTargetPosition(ticks + FRtickAdj);
+            myFrontLeft.setTargetPosition(ticks + FLtickAdj);
+            myBackRight.setTargetPosition(ticks + BRtickAdj);
+            myBackLeft.setTargetPosition(ticks + BLtickAdj);
 
             myFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             myFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             myBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             myBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            currentTime = runTime.milliseconds();
-        }
+    }
+
+    // im gonna be real i have no idea if this works, but it should, in theory
+    public void waitABit(long ms, DcMotorEx myFrontRight,
+                         DcMotorEx myFrontLeft, DcMotorEx myBackRight, DcMotorEx myBackLeft) {
+
+        ElapsedTime runTime = new ElapsedTime();
+        double startTime = runTime.milliseconds();
+        double currentTime = runTime.milliseconds();
+        while (currentTime - startTime <= ms){
 
         myFrontRight.setVelocity(0);
         myFrontLeft.setVelocity(0);
         myBackRight.setVelocity(0);
         myBackLeft.setVelocity(0);
+        currentTime = runTime.milliseconds();
+    }
     }
 
     public void driveForward(double mult, long ms, DcMotorEx myFrontRight,

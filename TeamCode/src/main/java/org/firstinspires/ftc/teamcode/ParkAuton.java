@@ -88,12 +88,15 @@ public class ParkAuton extends LinearOpMode {
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         mySlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        // this tells motors to count 'ticks' while 'running to [set] position'
+        // this tells motors to count 'ticks' while 'running to [set] position' - it is in Parent Auton
+        /*
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         mySlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+         */
 
         // Slide * this is just declaring
         mySlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -169,30 +172,12 @@ public class ParkAuton extends LinearOpMode {
         }
 
         while (opModeIsActive()) {
-            // Gamepad Colors lmao
 
-            Gamepad.LedEffect rainbowAuton = new Gamepad.LedEffect.Builder()
-                    .addStep(1, 0, 0, 5000) // Show red for 5s
-                    .addStep(255, 128, 0, 5000) // Show orange for 5s
-                    .addStep(255, 255, 51, 5000) // Show yellow for 5s
-                    .addStep(0, 1, 0, 5000) // Show green for 5s
-                    .addStep(0, 0, 1, 5000) // Show blue for 5s
-                    .addStep(102, 0, 204, 5000) // Show purple for 5s
-                    .addStep(1, 1, 1, 5000) // Show white for 5s
-                    .addStep(255, 51, 255, 50000) // Show pink for 50s
-
-                    .build();
-
-
-            // purple
-            //gamepad1.setLedColor(102, 0, 204, 10000);
             // pink
-            //gamepad2.setLedColor(255, 51, 255, 10000);
+            gamepad1.setLedColor(255, 51, 255, 10000);
+            gamepad2.setLedColor(255, 51, 255, 10000);
 
-            // rainbow
 
-                gamepad1.runLedEffect(rainbowAuton);
-                gamepad2.runLedEffect(rainbowAuton);
 
 
 /*
@@ -210,56 +195,45 @@ maybe try for a PID controller use?
 and if we somehow manage to do all of the above (mad unlikely), work on color sensors & proximity sensors
  */
 
-            parentAuton bot = new parentAuton();
+            parentAuton jess = new parentAuton();
+            /*
+            if some motors are more powerful than other motors, go into parentAuton & change the "[motor]tickAdj" Variable
+             */
 
-            // for level 2 pole
-            bot.closeClaw(leftClaw, rightClaw);
-            bot.driveForward(5, 150, frontRight, frontLeft, backRight, backLeft);
-            bot.strafeRight(5, 1780, frontRight, frontLeft, backRight, backLeft);
-            bot.rotateLeft(5, 1150, frontRight, frontLeft, backRight, backLeft);
-            bot.moveSlide(2500, mySlide);
-            bot.driveForward(5, 550, frontRight, frontLeft, backRight, backLeft);
-            bot.openClaw(leftClaw, rightClaw);
+            jess.closeClaw(leftClaw, rightClaw);
+            jess.forwardInTicks(3, 500, frontRight, frontLeft, backRight, backLeft);
+            jess.waitABit(1000, frontRight, frontLeft, backRight, backLeft);
+            jess.forwardInTicks(3, 500, frontRight, frontLeft, backRight, backLeft);
 
-            // Always set to 0 after finishing program so slider isnt hangin around !!!
-            bot.moveSlide(0, mySlide);
 
 
             /*
-            // for level 3 pole
-            bot.moveSlide(3500, mySlide);
-            bot.rotateLeft(5, 1600, frontRight, frontLeft, backRight, backLeft);
-            bot.driveForward(5, 300, frontRight, frontLeft, backRight, backLeft);
-            bot.openClaw(leftClaw, rightClaw);
-            bot.moveSlide(0, mySlide);
-            */
+            below is data gathered from all the wheel motors and will keep updating
+            while the robot is in motion/has not reached its 'target position' yet
+             */
 
+            while (frontRight.isBusy() || frontLeft.isBusy() || backRight.isBusy() || backRight.isBusy()) {
 
+                telemetry.addData("FR Motor velocity", frontRight.getVelocity());
+                telemetry.addData("FR Motor position", frontRight.getCurrentPosition());
+                telemetry.addData("FR Motor is at target", !frontRight.isBusy());
+                telemetry.update();
 
+                telemetry.addData("FL Motor velocity", frontLeft.getVelocity());
+                telemetry.addData("FL Motor position", frontLeft.getCurrentPosition());
+                telemetry.addData("FL Motor is at target", !frontLeft.isBusy());
+                telemetry.update();
 
+                telemetry.addData("BR Motor velocity", backRight.getVelocity());
+                telemetry.addData("BR Motor position", backRight.getCurrentPosition());
+                telemetry.addData("BR Motor is at target", !backRight.isBusy());
+                telemetry.update();
 
-
-
-            // ** With 3rd square in mind, claw facing right
-
-            /*
-            if (tagOfInterest.id == left) {
-                // left square
-                bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
-                bot.driveBackward(5, 500, frontRight, frontLeft, backRight, backLeft);
-
-
-            } else if (tagOfInterest.id == right) {
-                // right square
-                bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
-                bot.driveForward(5, 500, frontRight, frontLeft, backRight, backLeft);
-
-
-            } else {
-                // forward square
-                bot.strafeRight(5, 750, frontRight, frontLeft, backRight, backLeft);
+                telemetry.addData("BL Motor velocity", backLeft.getVelocity());
+                telemetry.addData("BL Motor position", backLeft.getCurrentPosition());
+                telemetry.addData("BL Motor is at target", !backLeft.isBusy());
+                telemetry.update();
             }
-        */
 
             stop();
         }
