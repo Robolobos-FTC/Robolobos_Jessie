@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,10 +12,10 @@ import java.lang.*;
 @Autonomous(name="parent Auton Don't Run")
 public class parentAuton extends LinearOpMode {
     public static double right = 300, left = -300;
-    double FLMulti = 1;
-    double BLMulti = 1;
-    double FRMulti = 0.925;
-    double BRMulti = 0.925;
+    double FLMulti = 0.5;
+    double BLMulti = 0.5;
+    double FRMulti = 0.5;
+    double BRMulti = 0.5;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,6 +23,37 @@ public class parentAuton extends LinearOpMode {
         while (opModeIsActive()) {}
     }
 
+    public void forwardInTicks(double mult, long ms, int ticks, DcMotorEx myFrontRight,
+                             DcMotorEx myFrontLeft, DcMotorEx myBackRight, DcMotorEx myBackLeft) {
+        ElapsedTime runTime = new ElapsedTime();
+        double startTime = runTime.milliseconds();
+        double currentTime = runTime.milliseconds();
+        while (currentTime - startTime <= ms) {
+
+            myFrontRight.setVelocity(mult * right * FRMulti);
+            myFrontLeft.setVelocity(mult * left * 0.75 * FLMulti);
+            myBackRight.setVelocity(mult * right * BRMulti);
+            myBackLeft.setVelocity(mult * left * 0.9 * BLMulti);
+
+            // remember - ticks are what the motors 'count' by.
+            myFrontRight.setTargetPosition(ticks);
+            myFrontLeft.setTargetPosition(ticks);
+            myBackRight.setTargetPosition(ticks);
+            myBackLeft.setTargetPosition(ticks);
+
+            myFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            myFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            myBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            myBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            currentTime = runTime.milliseconds();
+        }
+
+        myFrontRight.setVelocity(0);
+        myFrontLeft.setVelocity(0);
+        myBackRight.setVelocity(0);
+        myBackLeft.setVelocity(0);
+    }
 
     public void driveForward(double mult, long ms, DcMotorEx myFrontRight,
                              DcMotorEx myFrontLeft, DcMotorEx myBackRight, DcMotorEx myBackLeft) {

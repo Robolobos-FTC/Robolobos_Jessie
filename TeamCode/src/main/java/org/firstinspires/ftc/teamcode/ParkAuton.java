@@ -66,25 +66,36 @@ public class ParkAuton extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        // Motors
         frontRight = hardwareMap.get(DcMotorEx.class, "front right");
         frontLeft = hardwareMap.get(DcMotorEx.class, "front left");
         backRight = hardwareMap.get(DcMotorEx.class, "back right");
         backLeft = hardwareMap.get(DcMotorEx.class, "back left");
 
+        // Slider
         mySlide = hardwareMap.get(DcMotorEx.class, "slide");
 
+        // extension + claws
         extension = hardwareMap.crservo.get("extension");
         rightClaw = hardwareMap.servo.get("rightClaw");
         leftClaw = hardwareMap.servo.get("leftClaw");
 
+        // sets all encoder values to 0- not necessary as it is default, but here its visualized
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mySlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        // this tells motors to count 'ticks' while 'running to [set] position'
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         mySlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        // Slide
-        mySlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        // Slide * this is just declaring
         mySlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         mySlide.setTargetPosition(0);
         mySlide.setPower(1);
@@ -184,7 +195,20 @@ public class ParkAuton extends LinearOpMode {
                 gamepad2.runLedEffect(rainbowAuton);
 
 
+/*
+To-Code:
+add a 'ticks' method! to PARENT AUTON! it will be more annoying to try and add it below
 
+ex. bot.driveForwardTicks( [ticks:] 800, [velocity:] 3, [wheel motors]);
+
+once a 'tickRPM' method is added, RUN PHYSICAL TESTS TO MEASURE HOW MANY TICKS = ROUGHLY 1 TILE!!!!
+
+
+get code to always stay centered using IMU Output
+
+maybe try for a PID controller use?
+and if we somehow manage to do all of the above (mad unlikely), work on color sensors & proximity sensors
+ */
 
             parentAuton bot = new parentAuton();
 

@@ -90,14 +90,14 @@ public class FieldCentricJohnTest extends LinearOpMode {
 
 
             // purple
-            //gamepad1.setLedColor(102, 0, 204, 10000);
+            gamepad1.setLedColor(102, 0, 204, 100000);
             // pink
-            //gamepad2.setLedColor(255, 51, 255, 10000);
+            gamepad2.setLedColor(255, 51, 255, 100000);
 
             // rainbow
 
-            gamepad1.runLedEffect(rainbowManual);
-            gamepad2.runLedEffect(rainbowManual);
+            //gamepad1.runLedEffect(rainbowManual);
+            //gamepad2.runLedEffect(rainbowManual);
 
             /*
             Slide motor movement
@@ -110,18 +110,18 @@ public class FieldCentricJohnTest extends LinearOpMode {
             if (gamepad2.a) {
                 slideTarget = 0;
             } else if (gamepad2.y) {
-                slideTarget = 4250;
+                slideTarget = 4400;
             } else if (gamepad2.b) {
-                slideTarget = 2900;
+                slideTarget = 3000;
             } else if (gamepad2.x) {
-                slideTarget = 1275;
+                slideTarget = 1350;
             }
             slide.setTargetPosition(slideTarget);
 
             //speed servo movement
-            if (gamepad2.dpad_up) {
+            if (gamepad2.dpad_down) {
                 extension.setPower(1);
-            } else if (gamepad2.dpad_down) {
+            } else if (gamepad2.dpad_up) {
                 extension.setPower(-1);
             } else {
                 extension.setPower(0);
@@ -131,38 +131,6 @@ public class FieldCentricJohnTest extends LinearOpMode {
                 //servo uses setPostion();
 
 
-            // Below code will work one day
-//            if (gamepad2.right_bumper) {
-//                leftClawPosition = 0.4;
-//                rightClawPosition = 0.8;
-//                switchDirectionLeft = false;
-//                switchDirectionRight = false;
-//            } else {
-//                if (gamepad1.dpad_right) {
-//                    leftClaw.setDirection(Servo.Direction.REVERSE);
-//                    switchDirectionLeft = true;
-//                    leftClawMovedPosition = 0.5;
-//                    rightClawPosition = 0.8;
-//                } else if (gamepad1.dpad_left) {
-//                    //rightClaw.setDirection(Servo.Direction.REVERSE);
-//
-//                } else {
-//                    leftClawPosition = 0;
-//                    rightClawPosition = 1;
-//                }
-//            }
-//
-//            if (switchDirectionRight) {
-//                rightClaw.setPosition(rightClawMovedPosition);
-//                rightClaw.setDirection(Servo.Direction.REVERSE);
-//            } else if (switchDirectionLeft) {
-//                leftClaw.setPosition(leftClawMovedPosition);
-//                leftClaw.setDirection(Servo.Direction.REVERSE);
-//                rightClaw.setPosition(rightClawPosition);
-//            } else {
-//                leftClaw.setPosition(leftClawPosition);
-//                rightClaw.setPosition(rightClawPosition);
-//            }
 
             if (gamepad2.left_bumper) {
                 leftClaw.setPosition(0.1);
