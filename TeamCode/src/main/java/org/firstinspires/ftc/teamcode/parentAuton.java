@@ -21,6 +21,7 @@ public class parentAuton extends LinearOpMode {
     double BRMulti = 0.5;
 
     // adjust these to adjust how far the individual motors go in ticks * ticks MUST be in INT!!
+    // ex. if you make it 100, motor will go +100 ticks. if you make it -100, it will go -100 ticks
     int FRtickAdj = 0;
     int FLtickAdj = 0;
     int BRtickAdj = 0;
@@ -33,15 +34,33 @@ public class parentAuton extends LinearOpMode {
         while (opModeIsActive()) {}
     }
 
-    // if this method works, I am amazing & Crtl C + Ctrl V and change the directions lmao
+    // Note on how the constructors in this class work:
+    // all motors and servos are declared in ParkAuton, and are thrown through
+    // parameters in the methods below
+
+        /*
+        Ngl i dont know how this works- if the robot is in position 500, and I tell it to go to 200,
+        do I need to make the velocity negative? does negative velocity even do anything? man tf is this
+        this hurts my brain
+
+
+        remember - ticks are what the motors 'count' by.
+
+         */
 
     public void forwardInTicks(double mult, int ticks, DcMotorEx myFrontRight,
                              DcMotorEx myFrontLeft, DcMotorEx myBackRight, DcMotorEx myBackLeft) {
 
-            myFrontRight.setVelocity(mult * right * FRMulti);
-            myFrontLeft.setVelocity(mult * left * 0.75 * FLMulti);
-            myBackRight.setVelocity(mult * right * BRMulti);
-            myBackLeft.setVelocity(mult * left * 0.9 * BLMulti);
+        /*
+            TO USE ENCODERS!
+            order MUST go: reset encoder --> set position --> run to position --> set max velocity
+            it will compile, but when you try to run it will get mad and yell at you
+         */
+
+            myFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            myFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            myBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            myBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             // remember - ticks are what the motors 'count' by.
             myFrontRight.setTargetPosition(ticks + FRtickAdj);
@@ -54,6 +73,33 @@ public class parentAuton extends LinearOpMode {
             myBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             myBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+            // i have no idea what the no idea why 0.75 & 0.9 exist, but if it works, dont touch it
+            myFrontRight.setVelocity(mult * right * FRMulti);
+            myFrontLeft.setVelocity(mult * left * 0.75 * FLMulti);
+            myBackRight.setVelocity(mult * right * BRMulti);
+            myBackLeft.setVelocity(mult * left * 0.9 * BLMulti);
+
+    }
+
+    public void backwardsInTicks(double mult, int ticks, DcMotorEx myFrontRight,
+                               DcMotorEx myFrontLeft, DcMotorEx myBackRight, DcMotorEx myBackLeft) {
+
+
+        myFrontRight.setTargetPosition(ticks + FRtickAdj);
+        myFrontLeft.setTargetPosition(ticks + FLtickAdj);
+        myBackRight.setTargetPosition(ticks + BRtickAdj);
+        myBackLeft.setTargetPosition(ticks + BLtickAdj);
+
+        myFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        myFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        myBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        myBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        myFrontRight.setVelocity(mult * right * FRMulti);
+        myFrontLeft.setVelocity(mult * left * FLMulti);
+        myBackRight.setVelocity(mult * right * BRMulti);
+        myBackLeft.setVelocity(mult * left * BLMulti);
+
     }
 
     // im gonna be real i have no idea if this works, but it should, in theory
@@ -63,22 +109,23 @@ public class parentAuton extends LinearOpMode {
         ElapsedTime runTime = new ElapsedTime();
         double startTime = runTime.milliseconds();
         double currentTime = runTime.milliseconds();
+
         while (currentTime - startTime <= ms){
 
-        myFrontRight.setVelocity(0);
-        myFrontLeft.setVelocity(0);
-        myBackRight.setVelocity(0);
-        myBackLeft.setVelocity(0);
-        currentTime = runTime.milliseconds();
-    }
+          myFrontRight.setVelocity(0);
+          myFrontLeft.setVelocity(0);
+          myBackRight.setVelocity(0);
+          myBackLeft.setVelocity(0);
+          currentTime = runTime.milliseconds();
+        }
     }
 
     public void driveForward(double mult, long ms, DcMotorEx myFrontRight,
                              DcMotorEx myFrontLeft, DcMotorEx myBackRight, DcMotorEx myBackLeft) {
-        ElapsedTime runTime = new ElapsedTime();
-        double startTime = runTime.milliseconds();
+        ElapsedTime runTime = new ElapsedTime();double startTime = runTime.milliseconds();
         double currentTime = runTime.milliseconds();
         while (currentTime - startTime <= ms) {
+
             myFrontRight.setVelocity(mult * right * FRMulti);
             myFrontLeft.setVelocity(mult * left * 0.75 * FLMulti);
             myBackRight.setVelocity(mult * right * BRMulti);

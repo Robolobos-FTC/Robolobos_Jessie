@@ -81,12 +81,15 @@ public class ParkAuton extends LinearOpMode {
         rightClaw = hardwareMap.servo.get("rightClaw");
         leftClaw = hardwareMap.servo.get("leftClaw");
 
-        // sets all encoder values to 0- not necessary as it is default, but here its visualized
+        // sets all encoder values to 0- not necessary as it is default in parentAuton, but here its visualized
+        /*
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         mySlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+         */
 
         // this tells motors to count 'ticks' while 'running to [set] position' - it is in Parent Auton
         /*
@@ -99,8 +102,8 @@ public class ParkAuton extends LinearOpMode {
          */
 
         // Slide * this is just declaring
-        mySlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         mySlide.setTargetPosition(0);
+        mySlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         mySlide.setPower(1);
 
 
@@ -198,18 +201,29 @@ and if we somehow manage to do all of the above (mad unlikely), work on color se
             parentAuton jess = new parentAuton();
             /*
             if some motors are more powerful than other motors, go into parentAuton & change the "[motor]tickAdj" Variable
+
+            The going backwards dilemma-
+            I  have no idea if negative velocity values make the robot go backwards, or if you need to set a past position with a positive velocity
+
+            (ex. starting ticks: 500. to go to ticks :300, do you do [method](-200 ticks, 3 velocity), or [method] (300 ticks, -3 velocity)
+            or do none of the above work and im back to square 1
              */
 
             jess.closeClaw(leftClaw, rightClaw);
-            jess.forwardInTicks(3, 500, frontRight, frontLeft, backRight, backLeft);
-            jess.waitABit(1000, frontRight, frontLeft, backRight, backLeft);
-            jess.forwardInTicks(3, 500, frontRight, frontLeft, backRight, backLeft);
+            jess.forwardInTicks(3, 300, frontRight, frontLeft, backRight, backLeft);
+            jess.waitABit(2000, frontRight, frontLeft, backRight, backLeft);
 
+            jess.forwardInTicks(3, 600, frontRight, frontLeft, backRight, backLeft);
+            jess.waitABit(2000, frontRight, frontLeft, backRight, backLeft);
+            jess.backwardsInTicks(3, 0, frontRight, frontLeft, backRight, backLeft);
 
+            // the code above SHOULD go forward a bit, wait for 2s, then go double the distance before the wait,
+            // stop again for 2s, and then go all the way back to the starting position
 
             /*
             below is data gathered from all the wheel motors and will keep updating
             while the robot is in motion/has not reached its 'target position' yet
+            this is untested but should work in theory
              */
 
             while (frontRight.isBusy() || frontLeft.isBusy() || backRight.isBusy() || backRight.isBusy()) {
