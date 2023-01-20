@@ -61,14 +61,47 @@ public class ParkAuton extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        // Motors
         frontRight = hardwareMap.get(DcMotorEx.class, "front right");
         frontLeft = hardwareMap.get(DcMotorEx.class, "front left");
         backRight = hardwareMap.get(DcMotorEx.class, "back right");
         backLeft = hardwareMap.get(DcMotorEx.class, "back left");
+
+        // Slider
+        mySlide = hardwareMap.get(DcMotorEx.class, "slide");
+
+        // extension + claws
+        extension = hardwareMap.crservo.get("extension");
+        rightClaw = hardwareMap.servo.get("rightClaw");
+        leftClaw = hardwareMap.servo.get("leftClaw");
+
+        // sets all encoder values to 0- not necessary as it is default in parentAuton, but here its visualized
+        /*
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mySlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+         */
+
+        // this tells motors to count 'ticks' while 'running to [set] position' - it is in Parent Auton
+        /*
+        
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mySlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+         */
+
+        // Slide * this is just declaring
+        mySlide.setTargetPosition(0);
+        mySlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        mySlide.setPower(1);
+
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -137,6 +170,80 @@ public class ParkAuton extends LinearOpMode {
         }
 
         while (opModeIsActive()) {
+      
+
+            // pink
+            gamepad1.setLedColor(255, 51, 255, 10000);
+            gamepad2.setLedColor(255, 51, 255, 10000);
+
+
+
+
+/*
+To-Code:
+add a 'ticks' method! to PARENT AUTON! it will be more annoying to try and add it below
+
+ex. bot.driveForwardTicks( [ticks:] 800, [velocity:] 3, [wheel motors]);
+
+once a 'tickRPM' method is added, RUN PHYSICAL TESTS TO MEASURE HOW MANY TICKS = ROUGHLY 1 TILE!!!!
+
+
+get code to always stay centered using IMU Output
+
+maybe try for a PID controller use?
+and if we somehow manage to do all of the above (mad unlikely), work on color sensors & proximity sensors
+ */
+
+            parentAuton jess = new parentAuton();
+            /*
+            if some motors are more powerful than other motors, go into parentAuton & change the "[motor]tickAdj" Variable
+
+            The going backwards dilemma-
+            I  have no idea if negative velocity values make the robot go backwards, or if you need to set a past position with a positive velocity
+
+            (ex. starting ticks: 500. to go to ticks :300, do you do [method](-200 ticks, 3 velocity), or [method] (300 ticks, -3 velocity)
+            or do none of the above work and im back to square 1
+             */
+
+            jess.closeClaw(leftClaw, rightClaw);
+            jess.forwardInTicks(3, 300, frontRight, frontLeft, backRight, backLeft);
+            jess.waitABit(2000, frontRight, frontLeft, backRight, backLeft);
+
+            jess.forwardInTicks(3, 600, frontRight, frontLeft, backRight, backLeft);
+            jess.waitABit(2000, frontRight, frontLeft, backRight, backLeft);
+            jess.backwardsInTicks(3, 0, frontRight, frontLeft, backRight, backLeft);
+
+            // the code above SHOULD go forward a bit, wait for 2s, then go double the distance before the wait,
+            // stop again for 2s, and then go all the way back to the starting position
+
+            /*
+            below is data gathered from all the wheel motors and will keep updating
+            while the robot is in motion/has not reached its 'target position' yet
+            this is untested but should work in theory
+             */
+
+            while (frontRight.isBusy() || frontLeft.isBusy() || backRight.isBusy() || backRight.isBusy()) {
+
+                telemetry.addData("FR Motor velocity", frontRight.getVelocity());
+                telemetry.addData("FR Motor position", frontRight.getCurrentPosition());
+                telemetry.addData("FR Motor is at target", !frontRight.isBusy());
+                telemetry.update();
+
+                telemetry.addData("FL Motor velocity", frontLeft.getVelocity());
+                telemetry.addData("FL Motor position", frontLeft.getCurrentPosition());
+                telemetry.addData("FL Motor is at target", !frontLeft.isBusy());
+                telemetry.update();
+
+                telemetry.addData("BR Motor velocity", backRight.getVelocity());
+                telemetry.addData("BR Motor position", backRight.getCurrentPosition());
+                telemetry.addData("BR Motor is at target", !backRight.isBusy());
+                telemetry.update();
+
+                telemetry.addData("BL Motor velocity", backLeft.getVelocity());
+                telemetry.addData("BL Motor position", backLeft.getCurrentPosition());
+                telemetry.addData("BL Motor is at target", !backLeft.isBusy());
+                telemetry.update();
+            }
             parentAuton bot = new parentAuton();
             if (tagOfInterest.id == left) {
                 bot.strafeRight(5, 1300, frontRight, frontLeft, backRight, backLeft);
