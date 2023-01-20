@@ -23,11 +23,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
@@ -39,9 +36,7 @@ import java.util.ArrayList;
 
 @Autonomous
 public class ParkAuton extends LinearOpMode {
-    public DcMotorEx frontRight, frontLeft, backRight, backLeft, mySlide;
-    public CRServo extension;
-    public Servo rightClaw, leftClaw;
+    public DcMotorEx frontRight, frontLeft, backRight, backLeft;
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -93,6 +88,7 @@ public class ParkAuton extends LinearOpMode {
 
         // this tells motors to count 'ticks' while 'running to [set] position' - it is in Parent Auton
         /*
+        
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -105,7 +101,6 @@ public class ParkAuton extends LinearOpMode {
         mySlide.setTargetPosition(0);
         mySlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         mySlide.setPower(1);
-
 
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -175,6 +170,7 @@ public class ParkAuton extends LinearOpMode {
         }
 
         while (opModeIsActive()) {
+      
 
             // pink
             gamepad1.setLedColor(255, 51, 255, 10000);
@@ -248,7 +244,20 @@ and if we somehow manage to do all of the above (mad unlikely), work on color se
                 telemetry.addData("BL Motor is at target", !backLeft.isBusy());
                 telemetry.update();
             }
-
+            parentAuton bot = new parentAuton();
+            if (tagOfInterest.id == left) {
+                bot.strafeRight(5, 1300, frontRight, frontLeft, backRight, backLeft);
+                sleep(200);
+                bot.strafeLeft(5,200, frontRight, frontLeft, backRight, backLeft);
+                bot.driveForward(5, 700, frontRight, frontLeft, backRight, backLeft);
+            } else if (tagOfInterest.id == right) {
+                bot.strafeRight(5, 1300, frontRight, frontLeft, backRight, backLeft);
+                sleep(200);
+                bot.strafeLeft(5, 200, frontRight, frontLeft, backRight, backLeft);
+                bot.driveBackward(5, 600, frontRight, frontLeft, backRight, backLeft);
+            } else {
+                bot.strafeRight(5, 1100, frontRight, frontLeft, backRight, backLeft);
+            }
             stop();
         }
     }

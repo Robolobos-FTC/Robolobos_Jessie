@@ -255,12 +255,12 @@ public class parentAuton extends LinearOpMode {
     public void closeClaw(Servo leftServo, Servo rightServo) {
         leftServo.setPosition(0.1);
         rightServo.setPosition(1);
-        sleep(2000);
+        //sleep(2000);
     }
 
     public void openClaw(Servo leftServo, Servo rightServo) {
         leftServo.setPosition(0.3);
         rightServo.setPosition(0.7);
-        sleep(2000);
+        //sleep(2000);
     }
 }
