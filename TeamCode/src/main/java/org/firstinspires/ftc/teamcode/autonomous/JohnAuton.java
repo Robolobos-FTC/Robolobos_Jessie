@@ -9,14 +9,18 @@ import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.commands.*;
+import org.firstinspires.ftc.teamcode.commands.State;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+
+/*TODO
+* possibly change extension servo to regular servo to allow for easier autonomous programming
+ */
 
 @Autonomous(name="John Auton")
 
 public class JohnAuton extends Auto {
 
-    private double waitAtScore;
+    private double waitAtScore = 0.2;
     private double waitAtStorage;
 
     public static Pose2d INIT = new Pose2d(-34, -65, toRadians(-90));
@@ -117,9 +121,10 @@ public class JohnAuton extends Auto {
         bot.claw.close();
 
         ScorePreload = drive.trajectorySequenceBuilder(INIT)
-                .addTemporalMarker(0, () -> bot.setPosition(State.MID))
+                .addTemporalMarker(2, () -> bot.setPosition(State.MID))
                 .back(17)
                 .build();
+        WaitAtScore1 = waitSequence(ScorePreload, waitAtScore);
 
     }
 }

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.subsystems.*;
+import org.firstinspires.ftc.teamcode.subsystems.Robot;
 
 @Config
 public abstract class Auto extends LinearOpMode {
@@ -16,6 +16,7 @@ public abstract class Auto extends LinearOpMode {
 
     TrajectorySequence Wait;
     TrajectorySequence ScorePreload;
+    TrajectorySequence WaitAtScore1;
 
     @Override
     public void runOpMode() {
@@ -33,6 +34,11 @@ public abstract class Auto extends LinearOpMode {
 
     public abstract void build();
     public void execute(){
+
+        drive.followTrajectorySequence(ScorePreload);
+        bot.claw.open();
+
+        drive.followTrajectorySequence(WaitAtScore1);
 
     }
 
