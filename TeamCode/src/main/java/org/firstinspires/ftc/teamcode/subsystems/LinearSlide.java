@@ -9,6 +9,9 @@ public class LinearSlide {
 
     private DcMotor slide;
     private int slideTarget;
+    private int HIGH = 4400, MID = 3000, LOW = 1350, INTAKE = 0;
+    private int AUTOMID = 3600;
+    private int FIVE = 900;
 
     public LinearSlide(HardwareMap hardwareMap) {
 
@@ -18,7 +21,6 @@ public class LinearSlide {
         slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slide.setTargetPosition(0);
         slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slideTarget = 0;
         slide.setPower(2.9);
 
     }
@@ -26,11 +28,23 @@ public class LinearSlide {
     public void setPosition(State state){
         switch(state){
             case INTAKING:
-                slideTarget = 0;
+                setTarget(INTAKE);
                 break;
             case MID:
-                slideTarget = 3000;
+                setTarget(MID);
+                break;
+            case AUTOMID:
+                setTarget(AUTOMID);
+                break;
         }
+    }
+
+    public void setTarget(int position){
+        slide.setTargetPosition(position);
+    }
+
+    public void setFive() {
+        setTarget(FIVE);
     }
 
 }

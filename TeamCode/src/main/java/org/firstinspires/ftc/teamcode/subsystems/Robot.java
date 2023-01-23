@@ -9,11 +9,13 @@ public class Robot {
 
     public Claw claw;
     public LinearSlide slide;
+    public Extension extension;
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry){
 
         claw = new Claw(hardwareMap);
         slide = new LinearSlide(hardwareMap);
+        extension = new Extension(hardwareMap);
 
     }
 

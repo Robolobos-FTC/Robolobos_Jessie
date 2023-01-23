@@ -12,4 +12,16 @@ public class Extension {
         extension = hardwareMap.get(CRServoImplEx.class, "extension");
 
     }
+
+    public void up(){
+        extension.setPower(-1);
+    }
+
+    public void down(){
+        extension.setPower(1);
+    }
+
+    public void stop(){
+        extension.setPower(0);
+    }
 }
