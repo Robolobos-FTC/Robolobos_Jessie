@@ -37,6 +37,7 @@ public abstract class Auto extends LinearOpMode {
     public abstract void build();
     public void execute(){
 
+
         drive.followTrajectorySequence(ScorePreload);
         bot.claw.open();
 

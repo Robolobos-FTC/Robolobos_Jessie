@@ -23,7 +23,7 @@ public class JohnAuton extends Auto {
         bot.claw.close();
 
         ScorePreload = drive.trajectorySequenceBuilder(INIT)
-                .addTemporalMarker(0, () -> bot.setPosition(State.AUTOMID))
+                .addTemporalMarker(0.4, () -> bot.setPosition(State.AUTOMID))
                 .back(20)
                 .lineToConstantHeading(new Vector2d(-13.5, -15))
                 .build();
