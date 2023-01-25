@@ -18,6 +18,7 @@ public abstract class Auto extends LinearOpMode {
     TrajectorySequence ScorePreload;
     TrajectorySequence ScoreToStorage1;
     TrajectorySequence WaitAtScore1;
+    TrajectorySequence StorageToScore2;
 
     @Override
     public void runOpMode() {
@@ -43,6 +44,9 @@ public abstract class Auto extends LinearOpMode {
 
         drive.followTrajectorySequence(ScoreToStorage1);
         bot.claw.close();
+
+        drive.followTrajectorySequence(StorageToScore2);
+        bot.claw.open();
     }
 
     public TrajectorySequence waitSequence(TrajectorySequence preceding, double time){

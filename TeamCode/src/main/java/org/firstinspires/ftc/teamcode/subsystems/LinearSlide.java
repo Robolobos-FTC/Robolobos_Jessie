@@ -11,8 +11,8 @@ public class LinearSlide {
     private int slideTarget;
     private int HIGH = 4400, MID = 3000, LOW = 1350, INTAKE = 0;
     private int AUTOMID = 3600;
-    private int FIVE = 900;
-
+    private int CONE5 = 840;
+    private int CONE4 = 800;
     public LinearSlide(HardwareMap hardwareMap) {
 
         slide = hardwareMap.dcMotor.get("slide");
@@ -36,15 +36,17 @@ public class LinearSlide {
             case AUTOMID:
                 setTarget(AUTOMID);
                 break;
+
+            case CONE5:
+                setTarget(CONE5);
+                break;
+            case CONE4:
+                setTarget(CONE4);
         }
     }
 
     public void setTarget(int position){
         slide.setTargetPosition(position);
-    }
-
-    public void setFive() {
-        setTarget(FIVE);
     }
 
 }

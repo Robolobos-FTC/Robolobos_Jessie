@@ -31,9 +31,20 @@ public class JohnAuton extends Auto {
         WaitAtScore1 = waitSequence(ScorePreload, waitAtScore);
 
         ScoreToStorage1 = drive.trajectorySequenceBuilder(ScorePreload.end())
-                .addTemporalMarker(1, () -> bot.slide.setFive())
+                .addTemporalMarker(1, () -> bot.slide.setPosition(State.CONE5))
                 .strafeRight(10)
                 .lineToConstantHeading(new Vector2d(-61, -2))
+
+                .build();
+
+        StorageToScore2 = drive.trajectorySequenceBuilder(ScoreToStorage1.end())
+
+                .addTemporalMarker(2, () -> bot.setPosition(State.AUTOMID))
+                // remember, toRadians will set the orientation of the robot using the unit circle
+                // 0 degrees is directly right of the field
+                .lineToLinearHeading(new Pose2d( -30, -2, toRadians(345)))
+
+
                 .build();
     }
 }
