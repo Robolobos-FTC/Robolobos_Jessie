@@ -93,9 +93,9 @@ public class FieldCentricJohnTest extends LinearOpMode {
 
             //speed servo movement
             if (gamepad2.dpad_up) {
-                extension.setPower(1);
-            } else if (gamepad2.dpad_down) {
                 extension.setPower(-1);
+            } else if (gamepad2.dpad_down) {
+                extension.setPower(1);
             } else {
                 extension.setPower(0);
             }
