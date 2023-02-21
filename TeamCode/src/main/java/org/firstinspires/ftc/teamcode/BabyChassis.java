@@ -41,7 +41,7 @@ public class BabyChassis extends LinearOpMode{
 
             double botHeading = -imu.getAngularOrientation().firstAngle;
 
-            // Rotate the movement direction counter to the bot's rotation
+            // Rotate the movement direction counter to the robot's rotation
             double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
             double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
