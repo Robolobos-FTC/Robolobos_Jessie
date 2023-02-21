@@ -78,10 +78,11 @@ public class LeftAuto extends LinearOpMode {
 
         parentAuton bot = new parentAuton();
 
-        int sleeveID = getSleeveID();
+      //  int sleeveID = getSleeveID();
 
 
         waitForStart();
+        /*
         while (opModeIsActive()) {
             bot.closeClaw(leftClaw, rightClaw);
             bot.raiseExtension(300, extension);
@@ -107,6 +108,7 @@ public class LeftAuto extends LinearOpMode {
             } else {
                 bot.driveBackward(5, 900, frontRight, frontLeft, backRight, backLeft);
             }*/
+        /*
             stop();
         }
     }
@@ -168,8 +170,9 @@ public class LeftAuto extends LinearOpMode {
             telemetry.update();
             sleep(20);
         }
-
+/*
         /* Update the telemetry */
+        /*
         if (tagOfInterest != null) {
             telemetry.addLine("Tag snapshot:\n");
             tagToTelemetry(tagOfInterest);
@@ -181,7 +184,7 @@ public class LeftAuto extends LinearOpMode {
 
         return tagOfInterest.id;
     }
-
+/*
     void tagToTelemetry(AprilTagDetection detection) {
         telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
         telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
@@ -190,5 +193,7 @@ public class LeftAuto extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
+
+         */
     }
 }

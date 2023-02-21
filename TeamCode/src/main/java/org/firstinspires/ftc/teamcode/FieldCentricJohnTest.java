@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.CRServoImplEx;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -29,7 +31,7 @@ public class FieldCentricJohnTest extends LinearOpMode {
         // Slider
         DcMotor slide = hardwareMap.dcMotor.get("slide");
         // Claw extension
-        extension = hardwareMap.crservo.get("extension");
+        CRServoImplEx extension = hardwareMap.get(CRServoImplEx.class, "extension");
         // Claw Motors
         Servo rightClaw = hardwareMap.servo.get("rightClaw");
         Servo leftClaw = hardwareMap.servo.get("leftClaw");
@@ -72,6 +74,31 @@ public class FieldCentricJohnTest extends LinearOpMode {
             double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
 
+            // Gamepad Colors lmao
+
+            Gamepad.LedEffect rainbowManual = new Gamepad.LedEffect.Builder()
+                    .addStep(1, 0, 0, 5000) // Show red for 5s
+                    .addStep(255, 128, 0, 5000) // Show orange for 5s
+                    .addStep(255, 255, 51, 5000) // Show yellow for 5s
+                    .addStep(0, 1, 0, 5000) // Show green for 5s
+                    .addStep(0, 0, 1, 5000) // Show blue for 5s
+                    .addStep(102, 0, 204, 5000) // Show purple for 5s
+                    .addStep(1, 1, 1, 5000) // Show white for 5s
+                    .addStep(255, 51, 255, 50000) // Show pink for 50s
+
+                    .build();
+
+
+            // purple
+            gamepad1.setLedColor(102, 0, 204, 100000);
+            // pink
+            gamepad2.setLedColor(255, 51, 255, 100000);
+
+            // rainbow
+
+            //gamepad1.runLedEffect(rainbowManual);
+            //gamepad2.runLedEffect(rainbowManual);
+
             /*
             Slide motor movement
                 [button controls:]
@@ -83,15 +110,17 @@ public class FieldCentricJohnTest extends LinearOpMode {
             if (gamepad2.a) {
                 slideTarget = 0;
             } else if (gamepad2.y) {
-                slideTarget = 4250;
+                slideTarget = 4400;
             } else if (gamepad2.b) {
-                slideTarget = 2900;
+                slideTarget = 3000;
             } else if (gamepad2.x) {
-                slideTarget = 1275;
+                slideTarget = 1350;
             }
             slide.setTargetPosition(slideTarget);
 
             //speed servo movement
+            
+            
             if (gamepad2.dpad_up) {
                 extension.setPower(-1);
             } else if (gamepad2.dpad_down) {
@@ -104,38 +133,6 @@ public class FieldCentricJohnTest extends LinearOpMode {
                 //servo uses setPostion();
 
 
-            // Below code will work one day
-//            if (gamepad2.right_bumper) {
-//                leftClawPosition = 0.4;
-//                rightClawPosition = 0.8;
-//                switchDirectionLeft = false;
-//                switchDirectionRight = false;
-//            } else {
-//                if (gamepad1.dpad_right) {
-//                    leftClaw.setDirection(Servo.Direction.REVERSE);
-//                    switchDirectionLeft = true;
-//                    leftClawMovedPosition = 0.5;
-//                    rightClawPosition = 0.8;
-//                } else if (gamepad1.dpad_left) {
-//                    //rightClaw.setDirection(Servo.Direction.REVERSE);
-//
-//                } else {
-//                    leftClawPosition = 0;
-//                    rightClawPosition = 1;
-//                }
-//            }
-//
-//            if (switchDirectionRight) {
-//                rightClaw.setPosition(rightClawMovedPosition);
-//                rightClaw.setDirection(Servo.Direction.REVERSE);
-//            } else if (switchDirectionLeft) {
-//                leftClaw.setPosition(leftClawMovedPosition);
-//                leftClaw.setDirection(Servo.Direction.REVERSE);
-//                rightClaw.setPosition(rightClawPosition);
-//            } else {
-//                leftClaw.setPosition(leftClawPosition);
-//                rightClaw.setPosition(rightClawPosition);
-//            }
 
             if (gamepad2.left_bumper) {
                 leftClaw.setPosition(0.1);
